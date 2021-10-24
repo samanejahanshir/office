@@ -13,6 +13,10 @@ public enum Gender {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static Gender getVal(String name) {
         for (Gender gender : values()) {
             if (gender.name.equalsIgnoreCase(name.trim())) {
