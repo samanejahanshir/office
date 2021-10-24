@@ -1,8 +1,10 @@
 import exception.InvalidInputExp;
+import model.Employee;
 import service.AdminService;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -27,14 +29,14 @@ public class Main {
                         throw new InvalidInputExp("you should enter 1 or 2 ");
 
                 }
-            }catch (NumberFormatException | InputMismatchException | InvalidInputExp e){
+            }catch (NumberFormatException | InputMismatchException | InvalidInputExp | SQLException | ClassNotFoundException e){
                 System.out.println(e.getMessage());
             }
         }
 
     }
 
-    private static void showMenuLogin() {
+    private static void showMenuLogin() throws SQLException, ClassNotFoundException {
         System.out.println("user name :");
         String userName=scanner.next();
         System.out.println("password :");
@@ -44,13 +46,19 @@ public class Main {
         }
     }
 
-    private static void showAdminMenu() {
+    private static void showAdminMenu() throws SQLException, ClassNotFoundException {
         System.out.println("1.Show All Employee List\n2.Show Employee List on Input Year\n3.exit");
         int selectMenu=scanner.nextInt();
         switch (selectMenu){
             case 1:
+                System.out.println("---------- List Employees ----------");
+                adminService.showAllEmployee();
+                for (Employee employee : adminService.employees) {
+                    System.out.println(employee);
+                }
 
             case 2:
+
             case 3:
             default:
                 throw new InvalidInputExp("you should enter 1 - 3 ");

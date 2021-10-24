@@ -78,4 +78,17 @@ public class Employee {
     public void setSalary(long salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", personalId='" + personalId + '\'' +
+                ", degree=" + degree +
+                ", inputYear=" + inputYear +
+                ", salary=" + salary +
+                ", gender=" + gender +
+                '}';
+    }
 }
