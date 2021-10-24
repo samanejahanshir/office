@@ -8,8 +8,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-   public static Scanner scanner=new Scanner(System.in);
-   public  static AdminService adminService;
+    public static Scanner scanner = new Scanner(System.in);
+    public static AdminService adminService;
+
+    static {
+        try {
+            adminService = new AdminService();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -22,14 +32,14 @@ public class Main {
                 switch (selectMenu) {
                     case 1:
                         showMenuLogin();
-                        break ;
+                        break;
                     case 2:
                         break outer;
                     default:
                         throw new InvalidInputExp("you should enter 1 or 2 ");
 
                 }
-            }catch (NumberFormatException | InputMismatchException | InvalidInputExp | SQLException | ClassNotFoundException e){
+            } catch (NumberFormatException | InputMismatchException | InvalidInputExp | SQLException | ClassNotFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -38,18 +48,18 @@ public class Main {
 
     private static void showMenuLogin() throws SQLException, ClassNotFoundException {
         System.out.println("user name :");
-        String userName=scanner.next();
+        String userName = scanner.next();
         System.out.println("password :");
-        String password=scanner.next();
-        if(userName.equals("admin") && password.equals("admin")){
+        String password = scanner.next();
+        if (userName.equals("admin") && password.equals("admin")) {
             showAdminMenu();
         }
     }
 
     private static void showAdminMenu() throws SQLException, ClassNotFoundException {
         System.out.println("1.Show All Employee List\n2.Show Employee List on Input Year\n3.exit");
-        int selectMenu=scanner.nextInt();
-        switch (selectMenu){
+        int selectMenu = scanner.nextInt();
+        switch (selectMenu) {
             case 1:
                 System.out.println("---------- List Employees ----------");
                 adminService.showAllEmployee();
@@ -58,7 +68,7 @@ public class Main {
                 }
 
             case 2:
-
+                adminService.showEmployeeOnYear();
             case 3:
             default:
                 throw new InvalidInputExp("you should enter 1 - 3 ");
