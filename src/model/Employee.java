@@ -1,6 +1,7 @@
 package model;
 
 import model.enums.Degree;
+import model.enums.Gender;
 
 import java.util.Date;
 
@@ -11,13 +12,23 @@ public class Employee {
     private Degree degree;
     private Date inputYear;
     private long salary;
+    private Gender gender;
 
-    public Employee(String fullName, String personalId, Degree degree, Date inputYear, long salary) {
+    public Employee(String fullName, String personalId, Degree degree, Date inputYear, long salary,Gender gender) {
         this.fullName = fullName;
         this.personalId = personalId;
         this.degree = degree;
         this.inputYear = inputYear;
         this.salary = salary;
+        this.gender=gender;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public int getId() {
