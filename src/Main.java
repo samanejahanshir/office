@@ -63,15 +63,20 @@ public class Main {
             case 1:
                 System.out.println("---------- List Employees ----------");
                 adminService.showAllEmployee();
-                for (Employee employee : adminService.employees) {
-                    System.out.println(employee);
-                }
-
+                showList(adminService.employees);
+                break;
             case 2:
-                adminService.showEmployeeOnYear();
+                showList(adminService.showEmployeeOnYear());
+                break;
             case 3:
             default:
                 throw new InvalidInputExp("you should enter 1 - 3 ");
+        }
+    }
+
+    public static void showList(List<Employee> employees) {
+        for (Employee employee : employees) {
+            System.out.println(employee);
         }
     }
 }
