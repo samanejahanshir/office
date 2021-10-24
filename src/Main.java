@@ -1,12 +1,15 @@
 import exception.InvalidInputExp;
 import service.AdminService;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
    public static Scanner scanner=new Scanner(System.in);
-   public  static AdminService adminService=new AdminService();
+   public  static AdminService adminService;
+
+
     public static void main(String[] args) {
         outer:
         while (true) {
@@ -46,6 +49,7 @@ public class Main {
         int selectMenu=scanner.nextInt();
         switch (selectMenu){
             case 1:
+
             case 2:
             case 3:
             default:
