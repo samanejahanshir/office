@@ -28,6 +28,7 @@ public class AdminService {
 
     public AdminService() throws SQLException, ClassNotFoundException {
         this.employeeDao = new EmployeeDao();
+        employees=employeeDao.getAll();
     }
 
     public void showAllEmployee() throws SQLException, ClassNotFoundException {

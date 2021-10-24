@@ -1,8 +1,11 @@
 import exception.InvalidInputExp;
 import model.Employee;
+import model.EmployeeInformation;
+import model.enums.RangeSalary;
 import service.AdminService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -41,6 +44,7 @@ public class Main {
                 }
             } catch (NumberFormatException | InputMismatchException | InvalidInputExp | SQLException | ClassNotFoundException e) {
                 System.out.println(e.getMessage());
+                scanner.nextLine();
             }
         }
 
@@ -53,30 +57,75 @@ public class Main {
         String password = scanner.next();
         if (userName.equals("admin") && password.equals("admin")) {
             showAdminMenu();
+        }else{
+            System.out.println("input just for admin !");
         }
     }
 
     private static void showAdminMenu() throws SQLException, ClassNotFoundException {
-        System.out.println("1.Show All Employee List\n2.Show Employee List on Input Year\n3.exit");
-        int selectMenu = scanner.nextInt();
-        switch (selectMenu) {
-            case 1:
-                System.out.println("---------- List Employees ----------");
-                adminService.showAllEmployee();
-                showList(adminService.employees);
-                break;
-            case 2:
-                showList(adminService.showEmployeeOnYear());
-                break;
-            case 3:
-            default:
-                throw new InvalidInputExp("you should enter 1 - 3 ");
+        outer:
+        while(true) {
+            System.out.println("1.Show All Employee List\n2.Show Employee List on Input Year\n3.exit");
+            int selectMenu = scanner.nextInt();
+            switch (selectMenu) {
+                case 1:
+                    System.out.println("---------- List Employees ----------");
+                    adminService.showAllEmployee();
+                    showList(adminService.employees);
+                    break;
+                case 2:
+                    setListByRange(adminService.showEmployeeOnYear());
+                    break;
+                case 3:
+                    break outer;
+                default:
+                    throw new InvalidInputExp("you should enter 1 - 3 ");
+            }
         }
     }
 
     public static void showList(List<Employee> employees) {
+        System.out.format("+-----+----------------------+--------------+-----------+---------------+------------+----------+%n");
+        System.out.format("| ID  |      Full Name       |  Personal ID |   Degree  |   Input Year  |   salary   |  Gender  |%n");
+        System.out.format("+-----+----------------------+--------------+-----------+---------------+------------+----------+%n");
+        String leftAlignFormat = "| %-3d | %-20s | %-12s | %-10s | %-12s | %-10d | %-8s |%n";
         for (Employee employee : employees) {
-            System.out.println(employee);
+            System.out.format(leftAlignFormat,employee.getId(),employee.getFullName(),employee.getPersonalId(),employee.getDegree().getTitle(),employee.getInputYear(),employee.getSalary(),employee.getGender().getName());
         }
+        System.out.format("+-----+----------------------+--------------+-----------+---------------+------------+----------+%n");
+
     }
+    public static void setListByRange(List<Employee> employees) {
+        List<EmployeeInformation> employeeInformation=new ArrayList<>();
+        for (Employee employee : employees) {
+            int row=AdminService.year-Integer.parseInt(employee.getInputYear().toString().substring(0,4));
+            String range;
+           if(employee.getSalary()>1000000 && employee.getSalary()<5000000){
+               range= RangeSalary.ONE_TO_FIVE.getRange();
+           }else  if(employee.getSalary()>=5000000 && employee.getSalary()<10000000){
+               range=RangeSalary.FIVE_TO_TEN.getRange();
+           }else{
+               range=RangeSalary.UP_TEN.getRange();
+           }
+            EmployeeInformation employeeInformation1=new EmployeeInformation(employee.getFullName(),employee.getPersonalId()
+                    ,employee.getDegree(), employee.getInputYear(),
+                    employee.getSalary(),employee.getGender(),row,range);
+
+           employeeInformation.add(employeeInformation1);
+        }
+        showListByYear( employeeInformation );
+    }
+public static  void  showListByYear(List<EmployeeInformation> infoEmployees ){
+    System.out.format("+-----+--------+----------+-------------+----------------------+%n");
+    System.out.format("| Row | I-Year | R-Salary | Personal ID |       Full Name      |%n");
+    System.out.format("+-----+--------+----------+-------------+----------------------+%n");
+    String leftAlignFormat = "| %-3d | %-6s | %-8s | %-11s | %-20s |%n";
+    for (EmployeeInformation info : infoEmployees) {
+        System.out.format(leftAlignFormat,info.getRow(),info.getInputYear().toString().substring(0,4),info.getRangeSalary(),info.getPersonalId(),info.getFullName());
+    }
+    System.out.format("+-----+--------+----------+-------------+----------------------+%n");
+
+
+}
+
 }
