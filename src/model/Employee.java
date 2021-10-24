@@ -2,10 +2,11 @@ package model;
 
 import model.enums.Degree;
 import model.enums.Gender;
+import service.AdminService;
 
 import java.util.Date;
 
-public class Employee {
+public class Employee implements Comparable<Employee>{
     private  int id;
     private  String fullName;
     private String personalId;
@@ -90,5 +91,13 @@ public class Employee {
                 ", salary=" + salary +
                 ", gender=" + gender +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        int yearThis=Integer.parseInt(this.getInputYear().toString().substring(0,4));
+        int yearOther=Integer.parseInt(o.getInputYear().toString().substring(0,4));
+        return Integer.compare(yearThis,yearOther)*-1;
+
     }
 }
