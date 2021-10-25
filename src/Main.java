@@ -95,7 +95,7 @@ public class Main {
         System.out.format("+-----+----------------------+--------------+-----------+---------------+------------+----------+%n");
 
     }
-    public static void setListByRange(List<Employee> employees) {
+     public static void setListByRange(List<Employee> employees) {
         List<EmployeeInformation> employeeInformation=new ArrayList<>();
         for (Employee employee : employees) {
             int row=AdminService.year-Integer.parseInt(employee.getInputYear().toString().substring(0,4));
@@ -119,9 +119,41 @@ public static  void  showListByYear(List<EmployeeInformation> infoEmployees ){
     System.out.format("+-----+--------+----------+-------------+----------------------+%n");
     System.out.format("| Row | I-Year | R-Salary | Personal ID |       Full Name      |%n");
     System.out.format("+-----+--------+----------+-------------+----------------------+%n");
-    String leftAlignFormat = "| %-3d | %-6s | %-8s | %-11s | %-20s |%n";
-    for (EmployeeInformation info : infoEmployees) {
-        System.out.format(leftAlignFormat,info.getRow(),info.getInputYear().toString().substring(0,4),info.getRangeSalary(),info.getPersonalId(),info.getFullName());
+    String leftAlignFormat = "| %-3s | %-6s | %-8s | %-11s | %-20s |%n";
+    String row="1";
+    String year=infoEmployees.get(0).getInputYear().toString().substring(0,4);
+    String rangeSalary=infoEmployees.get(0).getRangeSalary();
+    for (int i=0;i<infoEmployees.size();i++) {
+        System.out.format(leftAlignFormat,row,year
+                ,rangeSalary
+                ,infoEmployees.get(i).getPersonalId()
+                ,infoEmployees.get(i).getFullName());
+        row="";
+        year="";
+        rangeSalary="";
+
+
+        if(i<infoEmployees.size()-1 ) {
+            if(infoEmployees.get(i).getRow() == infoEmployees.get(i + 1).getRow() && infoEmployees.get(i).getRangeSalary().equals(infoEmployees.get(i+1).getRangeSalary())) {
+
+                System.out.format("|     |        |          |-------------|----------------------|%n");
+            }
+            if(infoEmployees.get(i).getRow() == infoEmployees.get(i + 1).getRow() &&!infoEmployees.get(i).getRangeSalary().equals(infoEmployees.get(i+1).getRangeSalary())){
+                rangeSalary=infoEmployees.get(i+1).getRangeSalary();
+                System.out.format("|     |        |----------|-------------|----------------------|%n");
+
+            }
+            if (infoEmployees.get(i).getRow() != infoEmployees.get(i + 1).getRow()) {
+                row = (infoEmployees.get(i).getRow() + 1) + "";
+                year=(infoEmployees.get(i+1).getInputYear().toString().substring(0,4));
+                rangeSalary=infoEmployees.get(i+1).getRangeSalary();
+                System.out.format("|-----|--------|----------|-------------|----------------------|%n");
+
+            }
+        }
+
+
+
     }
     System.out.format("+-----+--------+----------+-------------+----------------------+%n");
 
